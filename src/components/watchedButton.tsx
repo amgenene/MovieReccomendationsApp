@@ -7,11 +7,12 @@ type Props = {
   movie: Movie;
 };
 
-const BookmarkButton = ({ movie }: Props): JSX.Element => {
+const WatchedButton = ({ movie }: Props): JSX.Element => {
   const { state, dispatch } = useContext(AppContext);
   const watched =
     state.watchedMovies.filter((movieList) => movieList.imdbID == movie.imdbID)[0]
       ?.watched ?? false;
+  console.log("watched", watched);
   const handleWatched = () => {
     dispatch({
       type: bookMarkMovieActionKind.WATCHED,
@@ -44,10 +45,12 @@ const BookmarkButton = ({ movie }: Props): JSX.Element => {
   return (
     <Checkbox
       onChange={watched ? handleUnwatched : handleWatched}
+      isChecked={watched ? true : false}
     >
       {watched ? "Watched" : "Watch"}
+      
     </Checkbox>
   );
 };
 
-export default BookmarkButton;
+export default WatchedButton;

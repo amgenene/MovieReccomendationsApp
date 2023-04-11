@@ -27,11 +27,15 @@ type SearchResult = {
 
 export default function Home() {
   const [showBookMarkedList, setshowBookMarkedList] = useState(false);
+  const [showWatchedList, setshowWatchedList] = useState(false);
   const { state, dispatch } = useContext(AppContext);
   const [movies, setMovies] = useState<Movie[]>([])
   const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [numberOfPages, setNumberOfPages] = useState(0);//Math.ceil(parseInt((payload as {totalResults: string}).totalResults) / 10)
+  const [numberOfPages, setNumberOfPages] = useState(0);
+  const handleShowWatchedList = () => {
+    setshowWatchedList(!showWatchedList);
+  };
   const handleShowBookMarkedList = () => {
     setshowBookMarkedList(!showBookMarkedList);
   };
@@ -49,9 +53,20 @@ export default function Home() {
       handleSearch(query, increasePageNum)
   }
   };
+  const handleClearWatchedList = () => {
+    dispatch({
+      type: bookMarkMovieActionKind.CLEAR,
+      payload: {
+        clearType: "Watched"
+      }
+    });
+  };
   const handleClearBookMarkedList = () => {
     dispatch({
       type: bookMarkMovieActionKind.CLEAR,
+      payload: {
+        clearType: "Bookmark"
+      }
     });
   };
   const handleSearch = async (query: string, pageNumber?: number) => {
@@ -89,17 +104,29 @@ export default function Home() {
   };
   return (
     <Box>
+      <Heading>Movie Tracker: </Heading>
+      <p>Search a movie, and add, or remove it from your watch/Bookmarked list</p>
       <SearchForm handleSearch={handleSearch} />
       <br></br>
       <Button colorScheme="blue" onClick={handleShowBookMarkedList}>
         Show BookMark List
       </Button>
       <Button
-        ml={"10px"}
+        ml={2}
         colorScheme="blue"
         onClick={handleClearBookMarkedList}
       >
         Clear BookMark List
+      </Button>
+      <Button ml={2} colorScheme="blue" onClick={handleShowWatchedList}>
+        Show Watch List
+      </Button>
+      <Button
+        ml={2}
+        colorScheme="blue"
+        onClick={handleClearWatchedList}
+      >
+        Clear Watched List
       </Button>
       <Flex>
         {movies ? (
@@ -141,36 +168,41 @@ export default function Home() {
         )}
 
         {showBookMarkedList && (
-          <DisplayBookmarkedMovies bookMarkedMovies={state.bookMarkedMovies} />
+          <DisplayMovieList movieList={state.bookMarkedMovies} title="Bookmarked Movies:" type={"Bookmark"}/>
+        )}
+        {showWatchedList && (
+          <DisplayMovieList movieList={state.watchedMovies} title="Watched Movies:" type={"Watched"}/>
         )}
       </Flex>
     </Box>
   );
 }
 interface IMyProps {
-  bookMarkedMovies: Movie[];
+  movieList: Movie[];
+  title: string;
+  type: string;
 }
-const DisplayBookmarkedMovies: React.FC<IMyProps> = (movieList: IMyProps) => {
+const DisplayMovieList: React.FC<IMyProps> = ({movieList, title, type}: IMyProps) => {
   return (
     <Box>
-      {movieList.bookMarkedMovies.length > 0 ? (
+      {movieList.length > 0 ? (
         <Box mt={8} ml={8}>
           <Heading as="h4" size="md">
-            Bookmarked Movies:
+            {title}
           </Heading>
-          {movieList.bookMarkedMovies.map((movie) => (
+          {movieList.map((movie) => (
             <Box key={buildUniqueKey(movie)} mb={4}>
               <Text fontWeight="bold">{movie.Title}</Text>
               <Text>
                 Released: {movie.Year} | Type: {movie.Type}
               </Text>
-              <WatchedButton movie={movie} />
+              {type == "Bookmark" && <WatchedButton movie={movie} />}
             </Box>
           ))}
         </Box>
       ) : (
         <Box mt={8} ml={8}>
-          <Text>No movies have been Bookmarked. Please Bookmarked a movie</Text>
+          <Text>No movies have been {type == "Bookmark" ? "Bookmarked": "Watched"}. Please {type == "Bookmark" ? "Bookmarked": "Watched"} a movie</Text>
         </Box>
       )}
     </Box>

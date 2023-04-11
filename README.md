@@ -1,3 +1,11 @@
+Movie Tracker is a web app that allows you to search for movies, bookmark them, and keep track of the ones you have watched. To get started, simply type the title of a movie you're interested in into the search bar on the homepage and click the search button. This will bring up a list of movies that match your search term.
+
+You can then click the "Bookmark" button next to a movie to save it to your bookmarked movies list. To view your bookmarked movies, click the "Bookmarked Movies" tab at the top of the page.
+
+From there, you can mark a movie as watched by clicking the "Mark as Watched" button next to it. You can also remove a movie from your bookmarked movies list by clicking the "Remove" button next to it.
+
+The app also includes pagination, so you can navigate through multiple pages of search results if there are more than 10 movies that match your search term. 
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

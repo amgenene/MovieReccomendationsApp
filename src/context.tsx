@@ -11,7 +11,7 @@ export enum bookMarkMovieActionKind {
 // An interface for our actions
 export interface bookMarkMovieAction {
   type: bookMarkMovieActionKind;
-  payload?: {movies: Movie[]} | Movie | {queryString: string} | {totalResults: string}; // made payload optional because Clear doesn't need to use it
+  payload: {movies: Movie[]} | Movie | {queryString: string} | {totalResults: string} | {clearType: string}; // made payload optional because Clear doesn't need to use it
 }
 // An interface for our state
 export interface initialStateType {
@@ -58,7 +58,12 @@ export function movieListReducer(
         ...state,
       };
     case bookMarkMovieActionKind.CLEAR:
-      state.bookMarkedMovies = [];
+      if((payload as {clearType: string}).clearType === "Bookmark"){
+        state.bookMarkedMovies = [];
+      }
+      else {
+        state.watchedMovies = [];
+      }
       return {
         ...state,
       };
