@@ -1,4 +1,4 @@
-Movie Tracker is a web app that allows you to search for movies, bookmark them, and keep track of the ones you have watched. To get started, simply type the title of a movie you're interested in into the search bar on the homepage and click the search button. This will bring up a list of movies that match your search term.
+Movie Tracker is a web app that allows you to search for movies, bookmark them, and keep track of the ones you have watched. To get started, simply navigate to https://movietracker.vercel.app/ and type the title of a movie you're interested in into the search bar on the homepage and click the search button. This will bring up a list of movies that match your search term.
 
 You can then click the "Bookmark" button next to a movie to save it to your bookmarked movies list. To view your bookmarked movies, click the "Bookmarked Movies" tab at the top of the page.
 
