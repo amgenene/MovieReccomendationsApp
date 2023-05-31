@@ -1,4 +1,4 @@
-import { ReactElement, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import BookmarkButton from "../components/BookMarkButton";
 import { Inter } from "next/font/google";
 import { Box, Button, Flex, Heading, Text, Image } from "@chakra-ui/react";
@@ -177,7 +177,7 @@ const DisplayMovieList: React.FC<IMyProps> = ({
             {title}
           </Heading>
           {movieList.map((movie) => (
-            <Flex>
+            <Flex key={movie.imdbID}>
               <Box mb={4}>
                 <Text fontWeight="bold">{movie.Title}</Text>
                 <Text>
@@ -246,9 +246,4 @@ function PaginationButtons({handleSearch, query, numberOfPages}: IPaginationButt
     </Flex>
   );
 }
-const buildUniqueKey = (movie: Movie): string => {
-  return movie.Title.concat(movie.Year)
-    .concat(movie.imdbID)
-    .concat(movie.Type)
-    .concat(movie.Poster);
-};
+
